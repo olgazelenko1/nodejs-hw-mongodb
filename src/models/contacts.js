@@ -28,4 +28,4 @@ const contactsSchema = new mongoose.Schema({
     versionKey: false
 });
 
-export const contacts = mongoose.model('Contact', contactsSchema, 'Contacts');
+export const contacts = mongoose.model('contact', contactsSchema, 'contacts');
