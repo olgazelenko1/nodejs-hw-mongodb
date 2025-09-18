@@ -2,7 +2,7 @@ import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
 import { getEnvVar } from './utils/getEnvVar.js';
-import {contactsRouter} from "express";
+import {router} from "./routers/contacts.js";
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 
@@ -28,7 +28,7 @@ export const setupServer = () => {
       message: 'Welcome to the Contacts API',
       });
   });
-  app.use(contactsRouter);
+  app.use(router);
 
   app.use(notFoundHandler);
   app.use(errorHandler);
