@@ -40,9 +40,10 @@ export const deleteContactControler = async (req, res ) => {
   const result = await deleteContact(id);
     if(!result) {
         throw createHttpError(404, 'Contact not found');
-      }
-  res.status(204).end();
-  };
+    }
+    res.status(204).end();
+};
+
 
   export const updateContactController = async (req,res) => {
     const result = await updateContact( req.params.id , req.body);
