@@ -9,7 +9,9 @@ export const getAllContactsController = async ( req, res) => {
           message: "Successfully found contacts!",
           data: contacts,
         });
-  
+      };
+
+      
 export const getContactByIdController = async (req, res) => {
     const {id} = req.params;
     const contact = await getContactById(id);
@@ -38,7 +40,7 @@ export const deleteContactControler = async (req, res ) => {
   const result = await deleteContact(id);
     if(!result) {
         throw createHttpError(404, 'Contact not found');
-
+      }
   res.status(204).end();
   };
 
