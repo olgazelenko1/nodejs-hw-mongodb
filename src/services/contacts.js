@@ -12,14 +12,16 @@ export const getAllContacts = async ({
   const limit = perPage;
   const skip = (page - 1) * perPage;
 
-  // Формуємо запит один раз
+
+  
   const contactsQuery = contacts.find();
 
-  // Загальна кількість документів (для пагінації)
+
   const allContactsCount = await contacts.countDocuments({});
 
-  // Сортування, пагінація
+
   const contactsList = await contactsQuery
+    .find()
     .sort({ [sortBy]: sortOrder })
     .skip(skip)
     .limit(limit)
