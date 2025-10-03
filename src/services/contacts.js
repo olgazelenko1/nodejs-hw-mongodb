@@ -1,7 +1,7 @@
 import {contacts} from '../models/contacts.js';
 import {calculatePaginationData} from '../utils/calculatePaginationData.js';
 import { SortOrder } from '../constants/index.js';
-
+import { UsersCollection } from '../models/user.js';
 
 export const getAllContacts = async ({
   page = 1,
@@ -51,3 +51,6 @@ export const updateContact = async ( id, payload ) => {
     return contact;
 };
 
+export const registerUser = async (payload) => {
+  return await UsersCollection.create(payload);
+};
