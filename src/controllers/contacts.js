@@ -3,6 +3,8 @@ import createHttpError from "http-errors";
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 
+
+
 export const getAllContactsController = async ( req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
   const { sortBy, sortOrder } = parseSortParams(req.query);
@@ -65,3 +67,4 @@ export const deleteContactControler = async (req, res ) => {
       message: "Successfully patched a contact!", data: result,
     });
   };
+  
