@@ -16,8 +16,12 @@ router.post('/register',
  router.post('/login',
     validateBody(loginUserSchema),
     loginUserController);
-router.post('/logout', logoutUserController);
-router.post('/refresh', refreshUserSessionController);
+    
+router.post('/logout',
+     logoutUserController);
+
+router.post('/refresh', 
+    refreshUserSessionController);
 
 export default router;
 

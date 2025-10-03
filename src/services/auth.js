@@ -2,12 +2,13 @@ import bcrypt from 'bcrypt';
 import { UsersCollection } from '../models/user.js';
 import createHttpError  from 'http-errors';
 import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/index.js';
-import { SessionCollection } from '../models/session.js';
+import { SessionsCollection } from '../models/session.js';
 import { randomBytes } from 'crypto';
 
 
 
 export const registerUser = async (payload) => {
+
     const user = await UsersCollection.findOne({ email : payload.email });
     
     if (user) throw createHttpError(409, 'Email in use');
@@ -19,22 +20,26 @@ export const registerUser = async (payload) => {
         password: encryptedPassword,
     });
 };
+
+
 export const loginUser = async (payload) => {
+
     const user = await UsersCollection.findOne({ email : payload.email });
     if (!user) {
-        throw new createHttpError(404, 'User not found');
+        throw createHttpError(404, 'User not found');
     }
     const isEqual = await bcrypt.compare(payload.password, user.password);
 
     if (!isEqual){
-        throw  new createHttpError(401, 'Unaunthorized');
+        throw createHttpError(401, 'Unauthorized');
     }
-    await  SessionCollection.deleteOne({ userId: user._id});
+
+    await  SessionsCollection.deleteOne({ userId: user._id});
 
     const accessToken = randomBytes(30).toString('base64');
     const refreshToken = randomBytes(30).toString('base64');
 
-    return await SessionCollection.create({
+    return await SessionsCollection.create({
         userId: user._id,
         accessToken,
         refreshToken,
@@ -45,7 +50,7 @@ export const loginUser = async (payload) => {
 
 
 export const logoutUser = async (sessionId) => {
-    await SessionCollection.deleteOne({ _id: sessionId });
+    await SessionsCollection.deleteOne({ _id: sessionId });
 };
 
 const createSession = () => {
@@ -60,8 +65,10 @@ const createSession = () => {
     };
 };
 
-export const refreshUserSession = async ({ sessionId,refreshToken}) => {
-    const session = await SessionCollection.findOne({
+
+
+export const refreshUsersSession = async ({ sessionId,refreshToken}) => {
+    const session = await SessionsCollection.findOne({
         _id: sessionId,
         refreshToken,
     });
@@ -77,10 +84,10 @@ export const refreshUserSession = async ({ sessionId,refreshToken}) => {
 
    const newSession = createSession();
 
-   await SessionCollection.deleteOne({ _id: sessionId, refreshToken });
+   await SessionsCollection.deleteOne({ _id: sessionId, refreshToken });
    
 
-   return await SessionCollection.create({
+   return await SessionsCollection.create({
        userId: session.userId,
        ...newSession,
    });

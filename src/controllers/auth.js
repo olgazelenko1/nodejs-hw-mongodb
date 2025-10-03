@@ -2,7 +2,7 @@ import { loginUser } from '../services/auth.js';
 import { registerUser } from '../services/auth.js';
 import { ONE_DAY } from '../constants/index.js';
 import { logoutUser } from '../services/auth.js';
-import { refreshUserSession } from '../services/auth.js';
+import { refreshUsersSession } from '../services/auth.js';
 
   export const registerUserController = async (req, res) => {
     const user = await registerUser(req.body);
@@ -25,7 +25,7 @@ export const loginUserController = async (req, res) => {
         httpOnly: true,
         expires: new Date(Date.now() + ONE_DAY),
     });
-    res.json({
+    res.status(200).json({
         status: 200,
         message: 'Successfully logged in a user!',
         data : {
@@ -58,7 +58,7 @@ const setupSession = (res,session) => {
   };
   
   export const refreshUserSessionController = async (req, res) => {
-    const session = await refreshUserSession({
+    const session = await refreshUsersSession({
       sessionId: req.cookies.sessionId,
       refreshToken: req.cookies.refreshToken,
     });
