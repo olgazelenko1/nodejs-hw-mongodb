@@ -35,9 +35,18 @@ export const loginUserController = async (req, res) => {
 };
 
 export const logoutUserController = async (req, res) => {
-  if (req.cookies.sessionId){
-    await logoutUser(req.cookies.sessionId);
-  };
+
+  if (req.cookies && req.cookies.sessionId) {
+    await logoutUser({ sessionId: req.cookies.sessionId });
+  } else {
+    const authHeader = req.get('Authorization');
+    if (authHeader) {
+      const [bearer, token] = authHeader.split(' ');
+      if (bearer === 'Bearer' && token) {
+        await logoutUser({ accessToken: token });
+      }
+    }
+  }
 
   res.clearCookie('sessionId');
   res.clearCookie('refreshToken');
