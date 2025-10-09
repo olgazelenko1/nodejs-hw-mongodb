@@ -1,11 +1,13 @@
 import Router from 'express';
-import { registerUserController } from '../controllers/auth.js';
+
 import { validateBody } from '../middlewares/validateBody.js';
-import { registerUserSchema } from '../validation/auth.js';
-import { loginUserController } from '../controllers/auth.js';
-import { loginUserSchema } from '../validation/auth.js';
-import { logoutUserController } from '../controllers/auth.js';
-import { refreshUserSessionController } from '../controllers/auth.js';
+
+import { refreshUserSessionController,requestResetEmailController,logoutUserController,loginUserController,registerUserController,resetPwdController } from '../controllers/auth.js';
+
+import {  registerUserSchema,loginUserSchema,requestResetEmailSchema, resetPwdSchema  } from '../validation/auth.js';
+
+
+
 
 const router = Router();
 
@@ -23,5 +25,14 @@ router.post('/logout',
 router.post('/refresh', 
     refreshUserSessionController);
 
+router.post('/send-reset-email',
+    validateBody( requestResetEmailSchema),
+    requestResetEmailController);
+
+router.post('/reset-pwd',
+    validateBody(resetPwdSchema),
+    resetPwdController);
+
+    
 export default router;
 
