@@ -5,7 +5,11 @@ import { logoutUser } from '../services/auth.js';
 import { refreshUsersSession } from '../services/auth.js';
 import { requestResetToken }   from '../services/auth.js';
 import {resetPassword} from '../services/auth.js';
-
+import { getEnvVar } from '../utils/getEnvVar.js';
+import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
+import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
+import { updateContact } from '../services/contacts.js';
+import createHttpError from 'http-errors';
 
 
   export const registerUserController = async (req, res) => {
@@ -104,5 +108,31 @@ const setupSession = (res,session) => {
       status: 200,
       message: 'Password has been successfully reset.',
       data: {},
+    });
+  };
+
+  export const saveFileToCloudinaryController = async (req, res,next) => {
+
+    const {id} = req.params;
+    const photo = req.file;
+    let photoUrl;
+
+    if(photo) {
+      if(getEnvVar('ENABLE_CLOUDINARY') === 'true') {
+        photoUrl = await saveFileToCloudinary(photo);
+      } else {
+        photoUrl = await saveFileToUploadDir(photo);
+      }
+    }
+    const result = await updateContact( id , {...req.body, photo: photoUrl});
+
+    if (!result) {
+      next(createHttpError(404, 'Contact not found'));
+      return;
+    }
+    res.json({
+      status: 200,
+      message: "Successfully patched a contact!", 
+      data: result.contact,
     });
   };
