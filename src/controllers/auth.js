@@ -4,12 +4,13 @@ import { ONE_DAY } from '../constants/index.js';
 import { logoutUser } from '../services/auth.js';
 import { refreshUsersSession } from '../services/auth.js';
 import { requestResetToken }   from '../services/auth.js';
-import {resetPassword} from '../services/auth.js';
+import {resetPassword, loginOrSignupWithGoogle } from '../services/auth.js';
 import { getEnvVar } from '../utils/getEnvVar.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 import { updateContact } from '../services/contacts.js';
 import createHttpError from 'http-errors';
+import { generateAuthUrl } from '../utils/googleOAuth2.js';
 
 
   export const registerUserController = async (req, res) => {
@@ -136,3 +137,27 @@ const setupSession = (res,session) => {
       data: result.contact,
     });
   };
+export const getGoogleAuthUrlController = async (req,res) => {
+  const url = generateAuthUrl();
+  res.json({
+    status:200,
+    message: 'Successfully get Google OAuth url',
+    data: {
+      url,
+    }
+  });
+};
+
+export const loginWithGoogleController = async (req,res) => {
+  const session = await loginOrSignupWithGoogle(req.res.code);
+  setupSession(res, session);
+
+  res.json({
+    status: 200,
+    message: 'Successfully logged in via Google OAuth',
+    data: {
+      accessToken: session.accessToken,
+    },
+  });
+};
+

@@ -10,13 +10,21 @@ import {
   loginUserController,
   registerUserController,
   resetPwdController,
+  getGoogleAuthUrlController,
+  loginOrSignupWithGoogleOAuthController
 } from '../controllers/auth.js';
 
-import { registerUserSchema, loginUserSchema, requestResetEmailSchema, resetPwdSchema } from '../validation/auth.js';
+
+import { registerUserSchema, loginUserSchema, requestResetEmailSchema, resetPwdSchema, loginWithGoogleOAuthSchema } from '../validation/auth.js';
+
 
 const router = Router();
 
+router.get('/google-auth-url', getGoogleAuthUrlController);
+
 router.post('/register', validateBody(registerUserSchema), registerUserController);
+
+router.post('/confirm-oauth', validateBody(loginWithGoogleOAuthSchema), loginOrSignupWithGoogleOAuthController);
 
 router.post('/login', validateBody(loginUserSchema), loginUserController);
 
