@@ -1,6 +1,6 @@
 .env
 /node_modules
-
+/google-auth-oauth.json
 .vscode/
 .DS_Store
 .idea/
