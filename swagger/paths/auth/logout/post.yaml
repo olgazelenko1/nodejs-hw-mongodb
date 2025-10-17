@@ -1,0 +1,12 @@
+summary: 'logout User'
+tags:
+  - Auth
+operationId: logoutUser
+description: 'Logout user by invalidating the refresh token'
+responses:
+  '204':
+    description: 'Logged out (no content)'
+  '401':
+    $ref: ../../../components/responses/401.yaml
+  '500':
+    $ref: ../../../components/responses/500.yaml

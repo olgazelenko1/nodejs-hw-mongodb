@@ -1,0 +1,108 @@
+components:
+  schemas:
+    UserPublic:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: '64a1f6b2e2f7c12e34abcd56'
+        name:
+          type: string
+          example: 'Rui Silva'
+        email:
+          type: string
+          format: email
+          example: 'rui@example.com'
+        avatarURL:
+          type: string
+          nullable: true
+          example: 'http://.../avatar.jpg'
+
+    RegisterUser:
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+          example: 'Rui Silva'
+        email:
+          type: string
+          format: email
+          example: 'rui@example.com'
+        password:
+          type: string
+          format: password
+          example: 's3cureP@ss'
+
+    LoginUser:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: 'rui@example.com'
+        password:
+          type: string
+          format: password
+          example: 's3cureP@ss'
+
+    GoogleOAuthCode:
+      type: object
+      required:
+        - code
+      properties:
+        code:
+          type: string
+          example: '4/0AY0e-g6...'
+        redirectUri:
+          type: string
+          example: 'http://localhost:3000'
+
+    TokenResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+        expiresIn:
+          type: integer
+          example: 3600
+        user:
+          $ref: '#/components/schemas/UserPublic'
+
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: 'Bad request'
+        data:
+          nullable: true
+          example: null
+
+    StandardResponse:
+      description: 'Standard API response wrapper'
+      type: object
+      required:
+        - status
+        - message
+        - data
+      properties:
+        status:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: 'OK'
+        data:
+          type: object
+          description: 'Endpoint-specific payload'

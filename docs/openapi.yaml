@@ -14,6 +14,7 @@ tags:
 servers:
   - url: http://127.0.0.1:3000
   - url: https://nodejs-hw-mongodb-pbzw.onrender.com
+security: []
 paths:
   /contacts:
     get:
@@ -28,6 +29,38 @@ paths:
       $ref: ../swagger/paths/contacts/{id}/patch.yaml
     delete:
       $ref: ../swagger/paths/contacts/{id}/delete.yaml
+
+  /auth/register:
+    post:
+      $ref: ../swagger/paths/auth/register/post.yaml
+
+  /auth/confirm-oauth:
+    post:
+      $ref: ../swagger/paths/auth/confirm-oauth/post.yaml
+
+  /auth/login:
+    post:
+      $ref: ../swagger/paths/auth/login/post.yaml
+
+  /auth/google-auth-url:
+    get:
+      $ref: ../swagger/paths/auth/google-auth-url/get.yaml
+
+  /auth/logout:
+    post:
+      $ref: ../swagger/paths/auth/logout/post.yaml
+
+  /auth/refresh:
+    post:
+      $ref: ../swagger/paths/auth/refresh/post.yaml
+
+  /auth/send-reset-email:
+    post:
+      $ref: ../swagger/paths/auth/send-reset-email/post.yaml
+
+  /auth/reset-pwd:
+    post:
+      $ref: ../swagger/paths/auth/reset-pwd/post.yaml
 
 components:
   securitySchemes:
