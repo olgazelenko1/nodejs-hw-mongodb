@@ -1,0 +1,20 @@
+summary: Get Google OAuth URL
+tags:
+  - Auth
+operationId: getGoogleAuthUrl
+description: Authorization URL for Google OAuth
+responses:
+  '200':
+    description: 'Successfully get Google OAuth url'
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            url:
+              type: string
+              example: 'https://accounts.google.com/o/oauth2/auth?client_id=...'
+  '400':
+    $ref: '../../../components/responses/400.yaml'
+  '500':
+    $ref: '../../../components/responses/500.yaml'

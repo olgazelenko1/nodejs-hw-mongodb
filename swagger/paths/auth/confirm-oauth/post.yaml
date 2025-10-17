@@ -1,0 +1,52 @@
+summary: 'Confirm Google OAuth'
+tags:
+  - Auth
+operationId: confirmOAuth
+description: 'Confirm Google OAuth by exchanging the authorization code for tokens'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - code
+        properties:
+          code:
+            type: string
+            example: '4/0AX4XfWg...'
+          redirectUri:
+            type: string
+            example: 'http://localhost:3000'
+            description: 'Optional: the URI to redirect to after successful authentication (if used)'
+
+responses:
+  '200':
+    description: 'Logged in via Google'
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: 'Successfully logged in via Google OAuth!'
+            data:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                  example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+  '400':
+    $ref: '../../../components/responses/400.yaml'
+  '401':
+    $ref: '../../../components/responses/401.yaml'
+  '500':
+    $ref: '../../../components/responses/500.yaml'

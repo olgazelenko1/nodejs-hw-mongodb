@@ -1,0 +1,28 @@
+summary: 'Refresh access token (uses refresh cookie/session)'
+tags:
+  - Auth
+operationId: refreshUser
+responses:
+  '200':
+    description: 'New access token'
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: 'Successfully refreshed a session!'
+            data:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                  example: 'eyJ...'
+  '401':
+    $ref: '../../../components/responses/401.yaml'
+  '500':
+    $ref: '../../../components/responses/500.yaml'
